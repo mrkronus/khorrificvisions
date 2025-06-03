@@ -1,0 +1,31 @@
+## Interface: 110100, 110105
+## Title: KHorrificVisions
+## IconTexture: Interface\Icons\inv_eyeofnzothpet
+## RequiredDeps:
+## OptionalDeps: HandyNotes, BugSack, !BugGrabber
+## SavedVariables: KHorrificVisionsDB
+
+## Notes: KHorrificVisions
+## Author: Kronus
+## Version: 11.1.5.1
+## Dependencies: 
+## LoadOnDemand: 0
+## X-Nominal-Version: 1
+
+## OptionalDeps: Ace3
+## X-Embeds: Ace3
+
+#@no-lib-strip@
+Embeds.xml
+#@end-no-lib-strip@
+
+# KHorrificVisions
+Helpers.lua
+modules\MapNotes.lua
+modules\Buffs.lua
+modules\StoryData.lua
+ui\UIConstants.lua
+ui\StoryFrameUI.lua
+ui\HorrificVisionsUI.lua
+ui\MiniMapTooltip.lua
+Main.lua
