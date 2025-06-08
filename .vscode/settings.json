@@ -33,6 +33,8 @@
         "TooltipBackdropTemplateMixin",
         "NineSlicePanelMixin",
         "STANDARD_TEXT_FONT",
-        "RAID_CLASS_COLORS"
+        "RAID_CLASS_COLORS",
+        "GameTooltipTextLeft1",
+        "GameTooltipTextLeft2"
     ]
 }

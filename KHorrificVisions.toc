@@ -7,10 +7,10 @@
 
 ## Notes: KHorrificVisions
 ## Author: Kronus
-## Version: 11.1.5.1
+## Version: 11.1.5.2
 ## Dependencies: 
 ## LoadOnDemand: 0
-## X-Nominal-Version: 1
+## X-Nominal-Version: 2
 
 ## OptionalDeps: Ace3
 ## X-Embeds: Ace3
@@ -21,6 +21,7 @@ Embeds.xml
 
 # KHorrificVisions
 Helpers.lua
+# modules\ItemInfoCache.lua
 modules\MapNotes.lua
 modules\Buffs.lua
 modules\StoryData.lua

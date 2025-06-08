@@ -73,11 +73,17 @@ local icons = {
 
 local iconCategories =
 {
-	Potions = "Potions",
-	Mailboxes = "Mailboxes",
-	Mounts = "Mounts",
-	Buffs = "Buffs",
-	Crystals = "Crystals"
+	Potions = "the bad potion",
+	Crystals = "Odd Crystal",
+	Buffs = "buff",
+	Mounts_Mailboxes = "mailboxes (for Mail Muncher)",
+	Mounts_Swarmite = "trash piles (for Nesting Swarmite)",
+	Mounts_Horse = "Void-Forged Stallion",
+	Mounts_Gryphon = "Void-Scarred Gryphon",
+	Mounts_Windrider = "Void-Scarred Windrider",
+	Mounts_Wolf = "Void-Scarred Pack Mother",
+	Mounts_Panther = "Void-Crystal Panther",
+	Mounts_Bike = "Felreaver Deathcycle"
 }
 
 
@@ -100,8 +106,8 @@ local function addNamedValueToTable(sourceTable, title, subTitle)
     return newTable
 end
 
-local function createCommonEntry(icon, category, title, explainer, scale, alpha)
-    return { icon = icon, category = category, scale = scale or 1.2, alpha = alpha or 1.0, title = title, explainer = explainer }
+local function createEntry(icon, category, itemID, title, explainer, footer, scale, alpha)
+    return { icon = icon, category = category, itemID = itemID, title = title, footer = footer, explainer = explainer, scale = scale or 1.2, alpha = alpha or 1.0 }
 end
 
 
@@ -109,36 +115,131 @@ end
     Common Tables
 ---------------------------------------------------------------------------]]
 
-local Potion = createCommonEntry(icons.BAD_POTION, iconCategories.Potions, "Bad Potion", "This potion removes 100 sanity. The rest are safe.")
+local Potion = createEntry(
+    icons.BAD_POTION, iconCategories.Potions, nil,
+    "|T" .. icons.BAD_POTION .. ":16:16|t Bad Potion",
+    "This potion's color indicates the poitions that it will drain 100 sanity when consumed for the current run.",
+    nil
+)
 
-local Deathcycle = createCommonEntry(icons.DEATHCYCLE, iconCategories.Mounts, "Voidfire Deathcycle", "Killing the Deathcycle and it's rider, Haymar the Devout, will\nallow you to begin the journey to collecting the parts needed to build the\nmount. After defeating them both, click the bike again and send it to Dornogal,\nwhere it will give you hints on how to compelte it.\n\nRequires at least 1 mask active to see.")
-local Manifold = createCommonEntry(icons.MANIFOLD, iconCategories.Mounts, "Magic-Lined Manifold", "Looted at the entrance of the Auction House in the Trade\nDistrict area of Vision of Stormwind.\n\nRequires at least 1 mask active to see and\nthe Deathcycle defeated.")
-local EngineBlock = createCommonEntry(icons.MANIFOLD, iconCategories.Mounts, "Void-Forged Engine Block", "Looted inside the Engineering shop in the Drag\narea of Vision of Orgrimmar.\n\nRequires at least 1 mask active to see and\nthe Deathcycle defeated in Stormwind.")
+local Deathcycle = createEntry(
+    icons.DEATHCYCLE, iconCategories.Mounts_Bike, 211089,
+    "Voidfire Deathcycle",
+    "Defeating the Deathcycle and its rider, Haymar the Devout, will start your journey toward gathering the parts needed to construct the mount. After defeating both, click the bike again to send it to Dornogal, where it will provide hints on how to complete it.",
+    "Requires at least one mask to be active to see."
+)
 
-local Mail = createCommonEntry(icons.MINIMAP_TRACKING_MAILBOX, iconCategories.Mailboxes, "Mailbox", "Chance to summon Mail Muncher, which has\na 100% chance to drop itself as a mount.")
+local Manifold = createEntry(
+    icons.MANIFOLD, iconCategories.Mounts_Bike, 211089,
+    "Magic-Lined Manifold",
+    "Found at the entrance of the Auction House in the Trade District area of Vision of Stormwind.",
+    "Requires at least one mask to be active and the Deathcycle defeated in Stormwind to be visible."
+)
 
-local Horseshoe = createCommonEntry(icons.MINIMAP_TRACKING_STABLEMASTER, iconCategories.Mounts, "Horseshoe", "Collect all 4, use them at the anvil in Dwarven District for Void-Forged Stallion mount.")
-local HorseshoeForge = createCommonEntry(icons.STALLION, iconCategories.Mounts, "Anvil", "Use collected horseshoes here to summon Void-Forged Stallion.")
+local EngineBlock = createEntry(
+    icons.MANIFOLD, iconCategories.Mounts_Bike, 211089,
+    "Void-Forged Engine Block",
+    "Found inside the Engineering shop in the Drag area of Vision of Orgrimmar.",
+    "Requires at least one mask to be active and the Deathcycle defeated in Stormwind to be visible."
+)
 
-local TrashPile = createCommonEntry(icons.TRASH_CAN, iconCategories.Mounts, "Trash Pile", "Chance to summon Nesting Swarmite, which has\na 100% chance to drop itself as a mount.")
+local Mail = createEntry(
+    icons.MINIMAP_TRACKING_MAILBOX, iconCategories.Mounts_Mailboxes, 174653,
+    "Mailbox",
+    "Has a chance to summon the Mail Muncher, which will always drop itself as a mount.",
+    nil
+)
 
-local Gryphon = createCommonEntry(icons.GRYPHON, iconCategories.Mounts, "Claw Marked Bowl", "Place food in the bowl to summon Void-Scarred Gryphon (requires 2 masks).")
-local GryphonNote = createCommonEntry(icons.NOTE, iconCategories.Mounts, "Ripped Note", "Explains the food required for Claw Marked Bowl (requires 2 masks).")
+local Horseshoe = createEntry(
+    icons.MINIMAP_TRACKING_STABLEMASTER, iconCategories.Mounts_Horse, 235705,
+    "Horseshoe",
+    "Gather all four and use them at the anvil in the Dwarven District to obtain the Void-Forged Stallion mount.",
+    "Requires one mask to be active."
+)
 
-local BigKeech = createCommonEntry(icons.PANTHER, iconCategories.Mounts, "Big Keech", "Drops two items for crafting the Void-Crystal Panther:\nDesign: Void-Crystal Panther (Jewelcrafters only)\nVoid-Bound Orb of Mystery (everyone)\n\nRequires at least one mask to be active.")
-local BlackBloodBar = createCommonEntry(icons.BLACK_BLOOD_BAR, iconCategories.Mounts, "Black Blood Infused Bar", "Looted from Black Blood Infused Bar, two are needed\nto craft the Void-Crystal Panther. There is one in\nStormwind and one in Orgrimmar.")
+local HorseshoeForge = createEntry(
+    icons.STALLION, iconCategories.Mounts_Horse, 235705,
+    "Anvil",
+    "Use the gathered horseshoes at this location to summon the Void-Forged Stallion, which will always drop itself as a mount.",
+    "Requires one mask to be active."
+)
 
-local Wolf = createCommonEntry(icons.MINIMAP_TRACKING_STABLEMASTER, iconCategories.Mounts, "Wolf", "Acquire 2 stacks of Tattered Wolf Rider Gear, then burn the rug\nin Leatherworking shop in the Drag to summon Void-Scarred Pack Mother.\n\nRequires 1 mask to be active.")
-local WolfRug = createCommonEntry(icons.WOLF, iconCategories.Mounts, "Wolf Rug", "With 2 stacks of Tattered Wolf Rider Gear, burn the rug in this building to\nsummon the Void-Scarred Pack Mother.\n\nRequires 1 mask to be active.")
+local TrashPile = createEntry(
+    icons.TRASH_CAN, iconCategories.Mounts_Swarmite, 223265,
+    "Trash Pile",
+    "Has a chance to summon the Nesting Swarmite, which will always drop itself as a mount.",
+    nil
+)
 
-local Windrider = createCommonEntry(icons.WINDRIDER, iconCategories.Mounts, "Void-Scarred Wyvern", "After clearing Valley of Wisdom, take the\nelevetor up and defeat three waves of enemies to get the\nReins of the Void-Scarred Windrider.\n\nRequires 3 masks to be active.")
+local Gryphon = createEntry(
+    icons.GRYPHON, iconCategories.Mounts_Gryphon, 235700,
+    "Claw Marked Bowl",
+    "Put the required food into the bowl to summon the Void-Scarred Gryphon.",
+    "Requires at least two masks to be active."
+)
 
-local CombatBuff = createCommonEntry(icons.COMBAT_BUFF, iconCategories.Buffs, "Buff", "Only two combat buffs will be available per run.", 2.5)
+local GryphonNote = createEntry(
+    icons.NOTE, iconCategories.Mounts_Gryphon, 235700,
+    "Ripped Note",
+    "Describes the necessary food for the Claw Marked Bowl.",
+    "Requires at least two masks to be active."
+)
 
-local OddCrystal = createCommonEntry(icons.ODD_CRYSTAL, iconCategories.Crystals, "Odd Crystal", "Trade these in for Corrupted Mementos with Zarhaal in the visions.\nOnly 10 in total will be available at a time, 2 per area.")
-local Zarhaal = createCommonEntry(icons.ZARHAAL, iconCategories.Crystals, "Zarhaal", "Turn in Odd Crystals to him in exchange for Corrupted Mementos.")
+local BigKeech = createEntry(
+    icons.PANTHER, iconCategories.Mounts_Panther, 235712,
+    "Big Keech",
+    "He drops two items needed to craft the Void-Crystal Panther: Design: Void-Crystal Panther, which is exclusive to Jewelcrafters, and the Void-Bound Orb of Mystery, which is available to everyone.",
+    "Requires at least one mask to be active."
+)
 
+local BlackBloodBar = createEntry(
+    icons.BLACK_BLOOD_BAR, iconCategories.Mounts_Panther, 235712,
+    "Black Blood Infused Bar",
+    "Two are required to craft the Void-Crystal Panther. One can be found in Stormwind and the other in Orgrimmar.",
+    "Requires one mask to be active."
+)
 
+local Wolf = createEntry(
+    icons.MINIMAP_TRACKING_STABLEMASTER, iconCategories.Mounts_Wolf, 235706,
+    "Wolf",
+    "Collect two stacks of Tattered Wolf Rider Gear, then set fire to the rug in the Leatherworking shop in the Drag to summon the Void-Scarred Pack Mother.",
+    "Requires one mask to be active."
+)
+
+local WolfRug = createEntry(
+    icons.WOLF, iconCategories.Mounts_Wolf, 235706,
+    "Wolf Rug",
+    "With two stacks of Tattered Wolf Rider Gear, set fire to the rug in this building to summon the Void-Scarred Pack Mother.",
+    "Requires one mask to be active."
+)
+
+local Windrider = createEntry(
+    icons.WINDRIDER, iconCategories.Mounts_Wyvern, 235707,
+    "Void-Scarred Wyvern",
+    "After clearing the Valley of Wisdom, ride the elevator up and overcome three waves of enemies to earn the Reins of the Void-Scarred Windrider.",
+    "Requires three masks to be active."
+)
+
+local CombatBuff = createEntry(
+    icons.COMBAT_BUFF, iconCategories.Buffs, nil,
+    "Buff",
+    "Each run will offer a maximum of two combat buffs.",
+    nil,
+    2.5)
+
+local OddCrystal = createEntry(
+    icons.ODD_CRYSTAL, iconCategories.Crystals, nil,
+    "Odd Crystal",
+    "Exchange these with Zarhaal in the visions to receive Corrupted Mementos. A maximum of 10 will be available at a time, with 2 per area.",
+    nil
+)
+
+local Zarhaal = createEntry(
+    icons.ZARHAAL, iconCategories.Crystals, nil,
+    "Zarhaal",
+    "Give them Odd Crystals to receive Corrupted Mementos in return.",
+    nil
+)
 --[[-------------------------------------------------------------------------
     Node Data for Horrific Visions
 ---------------------------------------------------------------------------]]
@@ -292,6 +393,10 @@ local nodes = {
 local HandyNotesHandler = {}
 
 function HandyNotesHandler:OnEnter(uMapID, coord)
+    GameTooltip:Hide()
+    GameTooltip:ClearLines()
+    GameTooltip:SetWidth(350)
+
 	if ( self:GetCenter() > UIParent:GetCenter() ) then
 		GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 	else
@@ -301,13 +406,23 @@ function HandyNotesHandler:OnEnter(uMapID, coord)
 	local mapNode = nodes[uMapID][coord]
 	--DevTools_Dump(mapNode)
 
-    GameTooltip:AddLine(mapNode.title)
+    if mapNode.icon and mapNode.title then
+        local fontString = GameTooltip:CreateFontString(nil, "ARTWORK")
+        fontString:SetFontObject(GameTooltipTextLeft1:GetFontObject())
+        fontString:SetText("|T"..mapNode.icon..":16:16|t "..mapNode.title)
+        GameTooltip:AddLine(fontString:GetText(), nil, nil, nil, true)
+    end
+
 	if mapNode.subTitle then
-    	GameTooltip:AddLine(mapNode.subTitle)
+    	GameTooltip:AddLine(mapNode.subTitle, nil, nil, nil, true)
 	end
 
 	if mapNode.explainer then
-    	GameTooltip:AddLine("\n"..mapNode.explainer)
+    	GameTooltip:AddLine("\n"..mapNode.explainer, nil, nil, nil, true)
+	end
+
+	if mapNode.footer then
+    	GameTooltip:AddLine("\n"..colorize(mapNode.footer, KHorrificVisions.Colors.FooterDark), nil, nil, nil, true)
 	end
 
     GameTooltip:Show()
@@ -375,8 +490,8 @@ local function CreateCatagorySettings()
             HandyNotesOptions.args[key] = {
                 type = "toggle",
                 width = "full",
-                name = "Show "..category.." icons on the map",
-                desc = "Toggles the display of "..category.." icons in the Horrific Visions map",
+                name = "Show "..name.." icons on the map",
+                desc = "Toggles the display of "..name.." icons in the Horrific Visions map",
                 get = function(info) return LibAceAddon.db.profile[key] end,
                 set = function(info, value) LibAceAddon.db.profile[key] = value end,
             }
@@ -392,6 +507,13 @@ function RegisterWithHandyNotes()
         type = "description",
         order = 90,
         name = "Map options are available in the HandyNotes settings, if installed.",
+        fontSize = "medium",
+    }
+
+    KHorrificVisions.AceOptions.args.spacer = {
+        type = "description",
+        order = 91,
+        name = "",
         fontSize = "medium",
     }
 

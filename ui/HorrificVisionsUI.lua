@@ -33,9 +33,20 @@ local potionColorStatusMappings = {
 
 -- https://www.wowhead.com/news/pick-up-100-sanity-potions-in-horrific-visions-376961
 local potionBuffSpellIDs = {
-    Sick = 315849, -- Sickening Potion: https://www.wowhead.com/spell=315849/sickening-potion
-    Slug = 316100, -- Sluggish Potion: https://www.wowhead.com/spell=315845/sluggish-potion
-    Spicy = 315817 -- Spicy Potion: https://www.wowhead.com/spell=315817/spicy-potion
+    -- Sickening Potion: https://www.wowhead.com/spell=315849/sickening-potion
+    Sick = { id = 315849, icon = "spell_nature_sicklypolymorph", title = "Sickening Potion", shortDesc = "5% less damage",
+        desc = "Take 5% less damage from all sources. On expiration or removal you will Vomit uncontrollably for a short time."
+    },
+
+    -- Sluggish Potion: https://www.wowhead.com/spell=315845/sluggish-potion
+    Slug = { id = 316100, icon = "spell_nature_slow", title = "Sluggish Potion", shortDesc = "2% heal / 5 sec",
+        desc = "Heals 2% of maximum health every 5 seconds. On expiration or removal will slow movement speed for a short time."
+    },
+
+    -- Spicy Potion: https://www.wowhead.com/spell=315817/spicy-potion
+    Spicy = { id = 315817, icon = "ability_monk_breathoffire", title = "Spicy Potion", shortDesc = "breath fire",
+        desc = "Frequently breath fire dealing damage to nearby enemies. On expiration or removal you will catch fire yourself for a short time."
+    }
 }
 
 -- This is the value the game does the screen effect at
@@ -83,7 +94,7 @@ function HorrificVisionsUI:new()
     )
 
     self.resetButton = self:CreateIconButton(
-        "KHorrificVisionsFrameResetButton", 16,
+        "KHorrificVisionsFrameResetButton", 14,
         {"RIGHT", self.closeButton, "LEFT", -FRAME.BUTTON_SPACING, 0},
         "Interface/AddOns/KHorrificVisions/assets/reset", THEME.RESET_NORMAL_COLOR, THEME.RESET_HOVER_COLOR,
         RESET_TOOLTIP_TEXT, function() self:ResetBoxes() end
@@ -231,10 +242,29 @@ function HorrificVisionsUI:HandleBoxClick(clickedColor)
                 -- Assign tooltips only for Sick, Slug, and Spicy
                 if potionBuffSpellIDs[status] then
                     targetBox:SetScript("OnEnter", function(self)
-                        local spellID = potionBuffSpellIDs[status]
-                        if spellID and spellID > 0 then
-                            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                            GameTooltip:SetSpellByID(spellID)
+                        local spell = potionBuffSpellIDs[status]
+                        if spell then
+                            GameTooltip:Hide()
+                            GameTooltip:ClearLines()
+                            --GameTooltip:SetWidth(350)
+
+                            if ( self:GetCenter() > UIParent:GetCenter() ) then
+                                GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+                            else
+                                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                            end
+
+                            if spell.icon and spell.title then
+                                local fontString = GameTooltip:CreateFontString(nil, "ARTWORK")
+                                fontString:SetFontObject(GameTooltipTextLeft1:GetFontObject())
+                                fontString:SetText("|TInterface\\Icons\\"..spell.icon..":24:24|t "..spell.title)
+                                GameTooltip:AddLine(fontString:GetText(), nil, nil, nil, true)
+                            end
+
+                            if spell.desc then
+                                GameTooltip:AddLine(colorize(spell.desc, KHorrificVisions.Colors.White), nil, nil, nil, true)
+                            end
+
                             GameTooltip:Show()
                         end
                     end)
@@ -269,6 +299,7 @@ function HorrificVisionsUI:ResetBoxes()
         label:SetShadowOffset(0, 0)
         label:SetShadowColor(FRAME.COLOR_BLACK.r, FRAME.COLOR_BLACK.g, FRAME.COLOR_BLACK.b, FRAME.COLOR_BLACK.a)
         label:SetFont(NORMAL_POTION_FONT.file, NORMAL_POTION_FONT.size, BAD_POTION_FONT.effect)
+        box:SetScript("OnEnter", function(self) end)
     end
 
     self.haveClicked = false
@@ -302,9 +333,11 @@ function HorrificVisionsUI:CreatePartyUnitFrame(unit)
     partyUnitFrame.altPowerBar:SetSize(partyUnitFrame:GetWidth() - 3, partyUnitFrame:GetHeight() - 3)
     partyUnitFrame.altPowerBar:SetPoint("CENTER", partyUnitFrame.altPowerBarBackdrop, "CENTER", 0, 0)
     partyUnitFrame.altPowerBar:SetMinMaxValues(0, UnitPowerMax(unit, Enum.PowerType.Alternate))
-    partyUnitFrame.altPowerBar:SetValue(UnitPower(unit, Enum.PowerType.Alternate))
-    partyUnitFrame.altPowerBar:SetStatusBarTexture("Interface\\TARGETINGFRAME\\UI-StatusBar")
+    partyUnitFrame.altPowerBar:SetValue(UnitPowerMax(unit, Enum.PowerType.Alternate))
+    partyUnitFrame.altPowerBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
     partyUnitFrame.altPowerBar:SetStatusBarColor(0.3, 0, 0.5)
+    partyUnitFrame.altPowerBar:Hide()
+    C_Timer.After(0.1, function() partyUnitFrame.altPowerBar:Show() end)
 
     -- Name Display
     partyUnitFrame.name = partyUnitFrame.altPowerBar:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -331,6 +364,7 @@ function HorrificVisionsUI:CreatePartyUnitFrame(unit)
     partyUnitFrame:SetScript("OnEvent", function(_, _, argUnit, powerType)
         if argUnit == unit and powerType == "ALTERNATE" then
             local currentPower = UnitPower(unit, Enum.PowerType.Alternate)
+            partyUnitFrame.altPowerBar:SetMinMaxValues(0, UnitPowerMax(unit, Enum.PowerType.Alternate))
             partyUnitFrame.altPowerBar:SetValue(currentPower)
             partyUnitFrame.altPowerText:SetText(string.format("%d", currentPower))
 
