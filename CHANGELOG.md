@@ -1,3 +1,8 @@
+### Version 11.1.5.3 Beta
+
+- Resolving various issues with placement of UI elements in the main view
+
+
 ### Version 11.1.5.2 Beta
 
 - Updated many of the HandyNotes tooltips to be more helpful and easier to understand

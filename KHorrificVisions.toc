@@ -1,18 +1,16 @@
 ## Interface: 110100, 110105
 ## Title: KHorrificVisions
 ## IconTexture: Interface\Icons\inv_eyeofnzothpet
-## RequiredDeps:
-## OptionalDeps: HandyNotes, BugSack, !BugGrabber
 ## SavedVariables: KHorrificVisionsDB
 
 ## Notes: KHorrificVisions
 ## Author: Kronus
-## Version: 11.1.5.2
-## Dependencies: 
+## Version: 11.1.5.3
+## X-Nominal-Version: 3
 ## LoadOnDemand: 0
-## X-Nominal-Version: 2
 
-## OptionalDeps: Ace3
+## Dependencies:
+## OptionalDeps: Ace3, HandyNotes, BugSack, !BugGrabber 
 ## X-Embeds: Ace3
 
 #@no-lib-strip@
@@ -21,7 +19,6 @@ Embeds.xml
 
 # KHorrificVisions
 Helpers.lua
-# modules\ItemInfoCache.lua
 modules\MapNotes.lua
 modules\Buffs.lua
 modules\StoryData.lua

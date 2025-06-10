@@ -317,7 +317,7 @@ function HorrificVisionsUI:CreatePartyUnitFrame(unit)
     if not UnitExists(unit) then return end
 
     local partyUnitFrame = CreateFrame("Frame", unit .. "AltPowerFrame", self.frame)
-    partyUnitFrame:SetSize(150, 20)
+    partyUnitFrame:SetSize(155, 20)
 
     -- Border for the Alternate Power Bar (1px thin border)
     partyUnitFrame.altPowerBarBackdrop = CreateFrame("Frame", nil, partyUnitFrame, "BackdropTemplate")
@@ -424,10 +424,11 @@ function HorrificVisionsUI:UpdatePartyFrames()
             end
 
             local partyFrame = self.partyFrames[unit]
-            local column = ((i - 1) % 2 == 1) and 0 or 1
-            local row = math.floor((i - 1) / 2)
 
-            partyFrame:SetPoint("TOPLEFT", self.frame, "TOPLEFT", 15 + (column * 155), (-25 * row) - 65)
+            local column = (i % 2)
+            local row = math.floor(i / 2)
+
+            partyFrame:SetPoint("TOPLEFT", self.frame, "TOPLEFT", 15 + (column * 162), (-25 * row) - 65)
             partyFrame:Show()
         end
     end
