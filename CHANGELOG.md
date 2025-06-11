@@ -1,3 +1,8 @@
+### Version 11.1.5.4 Beta
+
+- Fixing a broken map note in the Orgrimmar map
+
+
 ### Version 11.1.5.3 Beta
 
 - Resolving various issues with placement of UI elements in the main view
