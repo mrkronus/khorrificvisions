@@ -388,56 +388,33 @@ function HorrificVisionsUI:CreatePartyUnitFrame(unit)
 end
 
 function HorrificVisionsUI:UpdatePartyFrames()
-    -- Ensure partyFrames storage exists
-    if not self.partyFrames then
-        self.partyFrames = {}
-    end
-
-    -- Hide all existing frames before updating to avoid UI glitches
-    for _, frame in pairs(self.partyFrames) do
-        frame:Hide()
-    end
-
-    -- Create and position the player's frame
-    if UnitExists("player") then
-        if not self.partyFrames["player"] then
-            self.partyFrames["player"] = self:CreatePartyUnitFrame("player")
+    -- Clear and reset existing frames
+    for unit, frame in pairs(self.partyFrames or {}) do
+        if not UnitExists(unit) then
+            frame:Hide()
+            frame = nil
         end
+    end
 
+    -- Rebuild the party frames map
+    self.partyFrames = {}
+
+    -- Create player frame
+    if UnitExists("player") then
+        self.partyFrames["player"] = self:CreatePartyUnitFrame("player")
         self.partyFrames["player"]:SetPoint("TOPLEFT", self.frame, "TOPLEFT", 15, -65)
         self.partyFrames["player"]:Show()
     end
 
-    -- Create and position party member frames
-    local activeUnits = {}
-    if UnitExists("player") then
-        activeUnits["player"] = true
-    end
-
-    for i = 1, 4 do
+    -- Create party member frames dynamically
+    for i = 1, MAX_PARTY_MEMBERS do
         local unit = "party" .. i
         if UnitExists(unit) then
-            activeUnits[unit] = true
-
-            if not self.partyFrames[unit] then
-                self.partyFrames[unit] = self:CreatePartyUnitFrame(unit)
-            end
-
-            local partyFrame = self.partyFrames[unit]
-
-            local column = (i % 2)
+            self.partyFrames[unit] = self:CreatePartyUnitFrame(unit)
+            local column = i % 2
             local row = math.floor(i / 2)
-
-            partyFrame:SetPoint("TOPLEFT", self.frame, "TOPLEFT", 15 + (column * 162), (-25 * row) - 65)
-            partyFrame:Show()
-        end
-    end
-
-    -- Remove frames for players who are no longer in the party
-    for unit, frame in pairs(self.partyFrames) do
-        if not activeUnits[unit] then
-            frame:Hide()
-            self.partyFrames[unit] = nil
+            self.partyFrames[unit]:SetPoint("TOPLEFT", self.frame, "TOPLEFT", 15 + (column * 162), (-25 * row) - 65)
+            self.partyFrames[unit]:Show()
         end
     end
 end

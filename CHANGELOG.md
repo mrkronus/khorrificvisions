@@ -1,3 +1,9 @@
+### Version 11.1.5.4 Beta
+
+- Fixing broken map notes in the Orgrimmar map
+- Resolving issues with the sanity bar when multiple people leave/join the party
+
+
 ### Version 11.1.5.3 Beta
 
 - Resolving various issues with placement of UI elements in the main view

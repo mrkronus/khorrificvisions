@@ -214,7 +214,7 @@ local WolfRug = createEntry(
 )
 
 local Windrider = createEntry(
-    icons.WINDRIDER, iconCategories.Mounts_Wyvern, 235707,
+    icons.WINDRIDER, iconCategories.Mounts_Windrider, 235707,
     "Void-Scarred Wyvern",
     "After clearing the Valley of Wisdom, ride the elevator up and overcome three waves of enemies to earn the Reins of the Void-Scarred Windrider.",
     "Requires three masks to be active."
