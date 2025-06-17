@@ -1,3 +1,8 @@
+### Version 11.1.7.5 Beta
+
+- Bumping TOC for latest patch (110107)
+
+
 ### Version 11.1.5.4 Beta
 
 - Fixing broken map notes in the Orgrimmar map
