@@ -6,8 +6,8 @@
 ## Notes: KHorrificVisions
 ## Author: Kronus
 
-## Version: 11.1.7.5
-## X-Nominal-Version: 5
+## Version: 11.1.7.6
+## X-Nominal-Version: 6
 ## X-Release-Type: beta
 ## LoadOnDemand: 0
 
