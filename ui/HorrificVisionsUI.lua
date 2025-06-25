@@ -53,14 +53,13 @@ local potionBuffSpellIDs = {
 local LOW_POWER_THRESHOLD = 200
 
 -- MapIds for valid Horrific Visions maps
+-- https://wago.tools/db2/UiMap?filter%5BName_lang%5D=vision&page=1
 local validVisionsMapIDs = {
-    [2212] = true,
-    [2213] = true,
-    [2264] = true,
-    [2827] = true,
-    [2828] = true,
-    [2403] = true,
-    [2404] = true
+    [1379] = true, -- 8.3 Visions of N'Zoth - Prototype
+    [1469] = true, -- BFA Vision of Orgrimmar
+    [1470] = true, -- BFA Vision of Stormwind
+    [2403] = true, -- Revisited Vision of Orgrimmar
+    [2404] = true, -- Revisited Vision of Stormwind
 }
 
 

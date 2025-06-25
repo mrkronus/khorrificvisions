@@ -1,3 +1,8 @@
+### Version 11.1.7.7 Beta
+
+- Resolving the issue where the main view would randomly appear in non-Horrific Vision zones.
+
+
 ### Version 11.1.7.6 Beta
 
 - Fixing broken folder structure
